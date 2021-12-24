@@ -28,7 +28,10 @@ func main() {
 		log.Fatal("--password must be specified")
 	}
 
+	// Open the key store.
 	ks := keystore.NewKeyStore(keystoreDir, keystore.StandardScryptN, keystore.StandardScryptP)
+
+	// Find account by the address.
 	var acc *accounts.Account
 	for _, a := range ks.Accounts() {
 		if a.Address.Hex() == accountAddress {
@@ -40,6 +43,7 @@ func main() {
 		log.Fatal("account not found")
 	}
 
+	// Unlock the account.
 	err := ks.Unlock(*acc, password)
 	if err != nil {
 		log.Fatal("Failed to unlock account: ", err)
