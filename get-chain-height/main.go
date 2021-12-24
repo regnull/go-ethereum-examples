@@ -11,13 +11,8 @@ import (
 
 func main() {
 	var nodeURL string
-	flag.StringVar(&nodeURL, "node-url", "", "URL of the node to connect to")
+	flag.StringVar(&nodeURL, "node-url", "http://127.0.0.1:7545", "URL of the node to connect to")
 	flag.Parse()
-
-	// Make sure node URL is specified.
-	if nodeURL == "" {
-		log.Fatal("--node-url must be specified")
-	}
 
 	// Connect to the node.
 	ctx := context.Background()
