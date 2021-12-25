@@ -6,8 +6,10 @@ import (
 	"fmt"
 	"log"
 	"math/big"
+	"time"
 
 	"github.com/ethereum/go-ethereum/accounts"
+	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
@@ -113,4 +115,14 @@ func main() {
 	}
 
 	fmt.Printf("tx sent: %s\n", signedTx.Hash().Hex())
+
+	fmt.Printf("waiting for confirmation...\n")
+	ctx1, cancel := context.WithTimeout(ctx, 3*time.Minute)
+	defer cancel()
+	// TODO: This doesn't work as expected, the wait always times out.
+	receipt, err := bind.WaitMined(ctx1, client, tx)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("included in block: %d\n", receipt.BlockNumber)
 }
