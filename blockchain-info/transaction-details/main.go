@@ -49,7 +49,9 @@ func main() {
 			fmt.Printf("gas price: %d\n", tx.GasPrice())
 			fmt.Printf("nonce: %d\n", tx.Nonce())
 			fmt.Printf("data: %v\n", tx.Data())
-			fmt.Printf("to: %s\n", tx.To().Hex())
+			if tx.To() != nil {
+				fmt.Printf("to: %s\n", tx.To().Hex())
+			}
 			fmt.Printf("cost: %d\n", tx.Cost())
 			break
 		}
