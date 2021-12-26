@@ -39,4 +39,12 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Printf("contract version: %s\n", version)
+
+	key := [32]byte{}
+	copy(key[:], []byte("hello"))
+	result, err := instance.Items(nil, key)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("items: %x\n", result)
 }
