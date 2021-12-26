@@ -12,7 +12,7 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/regnull/go-ethereum-examples/contracts/deploy-contract/store"
+	"github.com/regnull/go-ethereum-examples/contracts/store"
 )
 
 func main() {
