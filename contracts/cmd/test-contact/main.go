@@ -14,15 +14,20 @@ import (
 )
 
 func main() {
+	// Generate private key.
 	privateKey, err := crypto.GenerateKey()
 	if err != nil {
 		log.Fatal(err)
 	}
 	auth := bind.NewKeyedTransactor(privateKey)
+
+	// Create a simulated blockchain.
 	alloc := make(core.GenesisAlloc)
 	// Balance should be high enough to cover the transaction costs.
 	alloc[auth.From] = core.GenesisAccount{Balance: big.NewInt(1000000000000000)}
 	blockchain := backends.NewSimulatedBackend(alloc, 10000000)
+
+	// Deploy contract.
 	gasPrice, err := blockchain.SuggestGasPrice(context.Background())
 	if err != nil {
 		log.Fatal(err)
@@ -36,6 +41,7 @@ func main() {
 	fmt.Printf("contract address: %s\n", address.String())
 	fmt.Printf("deploy tx: %s\n", tx.Hash().Hex())
 
+	// Set item.
 	key := [32]byte{}
 	value := [32]byte{}
 	copy(key[:], []byte("hello"))
@@ -46,12 +52,12 @@ func main() {
 		log.Fatal(err)
 	}
 	blockchain.Commit()
+	fmt.Printf("set tx: %s\n", tx.Hash().Hex())
 
-	fmt.Printf("tx sent: %s\n", tx.Hash().Hex())
-
+	// Query an item.
 	result, err := instance.Items(nil, key)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("items: %x\n", result)
+	fmt.Printf("item: %x\n", result)
 }
